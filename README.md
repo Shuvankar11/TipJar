@@ -24,7 +24,7 @@ With built-in transaction history and direct links to the Stellar Explorer for b
 ### Different Wallet Option
 ![different_wallet](./Screenshots/different_wallet.png)
 
-
+*** For more screenshots check Screenshots folder ***
 
 ### Demo Video : 
 https://youtu.be/s69QlMkR_3Y
@@ -64,7 +64,7 @@ This project uses GitHub Actions for automated deployment to Vercel.
 Every push to main triggers a build and deploy.
 
 ### User Feedback Form: 
- give feedback(https://docs.google.com/forms/d/e/1FAIpQLSe7byMbZPbgFgVM2gUTxNllAlldho8ZWWgH2JTjfb-2Vhg26w/viewform?usp=publish-editor).
+ [give feedback](https://docs.google.com/forms/d/e/1FAIpQLSe7byMbZPbgFgVM2gUTxNllAlldho8ZWWgH2JTjfb-2Vhg26w/viewform?usp=publish-editor).
 
  [View User Feedback Document](https://docs.google.com/spreadsheets/d/1Y8JrN8sZV8SKP3HgzJpzHoWpP51v1aHbCFU79XomnLI/edit?usp=sharing)
 
@@ -82,45 +82,97 @@ FeatureDescription🔐 Secure AuthEmail/password sign-up & sign-in via Firebase 
 📜 On-Chain LoggingTips logged to a Soroban smart contract on Stellar
 🌐 Testnet ReadyRuns on Stellar Testnet — switch to mainnet by changing one config line
 
-🚀 Quick Start
-Prerequisites
 
-Node.js v18+
-A Firebase project (Firestore + Authentication enabled)
-Albedo or Freighter browser extension
+## 🛠 Tech Stack
 
-Installation
-bash# 1. Clone the repository
-git clone https://github.com/Shuvankar11/tipjar.git
-cd tipjar
+| Layer | Technology |
+|---|---|
+| Frontend | React 18 (JSX, loaded via SystemJS + Babel — no build step) |
+| Server | Node.js `http` module (static file server) |
+| Blockchain SDK | `stellar-sdk` v10.4.1 |
+| Blockchain Network | Stellar Testnet / Mainnet |
+| Wallet | Freighter & Albedo browser extensions |
+| Database | Firebase Firestore (off-chain tip metadata) |
+---
 
-# 2. Install dependencies
+
+## ✅ Prerequisites
+
+Make sure the following are installed on your Windows machine before you begin:
+
+| Tool | Version | Download |
+|---|---|---|
+| **Node.js** | v18 or higher | https://nodejs.org |
+| **Git** | Any recent version | https://git-scm.com |
+| **Chrome or Edge** | Any modern version | (pre-installed) |
+| **Freighter or Albedo** | Browser extension | https://freighter.app or https://albedo.link |
+
+**Verify Node.js is installed** — open Command Prompt and run:
+
+```bash
+node --version
+# Expected: v18.x.x or higher
+
+npm --version
+# Expected: 9.x or 10.x
+```
+
+---
+
+## 🚀 Local Setup — Windows
+
+### Step 1 — Clone the Repository
+
+Open **Command Prompt** (`Win + R` → type `cmd` → Enter) and run:
+
+```bash
+# Navigate to your preferred folder
+cd C:\Users\YourName\Projects
+
+# Clone the repo (replace with your actual GitHub URL)
+git clone https://github.com/YOUR_USERNAME/TipJar.git
+
+# Enter the project folder
+cd TipJar
+```
+
+---
+
+### Step 2 — Install Dependencies
+
+```bash
 npm install
+```
 
-# 3. Configure Firebase
-#    Open app-final.js and replace the firebaseConfig object with your own credentials
+This downloads `stellar-sdk` and all required packages into a `node_modules/` folder.  
+**Expected output:** `added X packages in Xs` (no red errors)
 
-# 4. Start the development server
+> ⚠️ Yellow `WARN` messages are normal — only red `ERROR` messages need attention.
+
+---
+
+### Step 3 — Start the Local Server
+
+```bash
 npm start
-Open your browser at http://localhost:8080 🎉
+```
 
-🛠️ Tech Stack
-LayerTechnologyFrontendReact 18 (via CDN + SystemJS), Vanilla CSSBackend / AuthFirebase Authentication,
-FirestoreBlockchainStellar Network (Testnet), Stellar SDK v10Smart ContractSoroban (Rust) — deployed on Stellar TestnetWallet SupportAlbedo, 
-FreighterServerNode.js HTTP server (static file serving)HostingVercelCI/CDGitHub Actions
+**Expected output:**
 
+```
+TipJar running at http://127.0.0.1:8080
+Press Ctrl+C to stop
+```
+
+> 🔴 **Keep this terminal window open.** Closing it stops the server.
+
+---
+*** For more details visit QUICK_START.md ***
 
 ⚙️ Configuration
 // Mainnet
 const HORIZON_URL = 'https://horizon.stellar.org';
 const NETWORK_PASSPHRASE = 'Public Global Stellar Network ; September 2015';
-
-📜 Smart Contract
-The Soroban contract (contracts/tipjar/src/lib.rs) lives on the Stellar Testnet:
-Contract ID: CBYSZTMUNI6TTNRKOJPK2424CSQF6H52QARHDBYCNYVM5OVEJB7YYMCR
-Functions:
-FunctionDescriptionlog_tip(sender, amount, message)Records a tip on-chain; 
-requires sender authget_tips()Returns all logged tip entriesget_total()Returns cumulative tips in stroops.
 
 
 Build the contract:
@@ -135,15 +187,10 @@ Send a tip — choose a recipient by wallet address or /@username, pick an amoun
 On-chain — a Stellar payment operation transfers XLM; a Soroban contract call logs the tip
 Dashboard — Firestore stores metadata; the dashboard shows real-time sent/received history with Horizon explorer links
 
+### ARCHITECTURE: 
+See Architechture.md for full design.
 
-🧪 Running Tests
-bashnpm test
-Tests are located in tests/app.test.js and run with plain Node.js (no test framework dependency).
-
-
-
-📄 License
-Distributed under the MIT License. See LICENSE for details.
+---
 
 🙏 Acknowledgments
 
