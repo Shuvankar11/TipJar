@@ -62,6 +62,9 @@ https://tip-jar-green.vercel.app/
 This project uses GitHub Actions for automated deployment to Vercel.
 Every push to main triggers a build and deploy.
 
+### User Feedback Form: 
+ give feedback(https://docs.google.com/forms/d/e/1FAIpQLSe7byMbZPbgFgVM2gUTxNllAlldho8ZWWgH2JTjfb-2Vhg26w/viewform?usp=publish-editor).
+
 
 ✨ Features
 FeatureDescription🔐 Secure AuthEmail/password sign-up & sign-in via Firebase Authentication
