@@ -1,4 +1,5 @@
 💸 TipJar
+<div>
 Welcome to TipJar! TipJar is a user-friendly platform designed to simplify peer-to-peer crypto tipping on the Stellar network.
 Users can securely connect their Albedo or Freighter wallets to send XLM directly to others or generate custom tipping links based on their username or wallet address.
 With built-in transaction history and direct links to the Stellar Explorer for blockchain verification, TipJar ensures that every tip is fast, secure, and transparent.
@@ -64,6 +65,9 @@ Every push to main triggers a build and deploy.
 
 ### User Feedback Form: 
  give feedback(https://docs.google.com/forms/d/e/1FAIpQLSe7byMbZPbgFgVM2gUTxNllAlldho8ZWWgH2JTjfb-2Vhg26w/viewform?usp=publish-editor).
+
+ [View User Feedback Document](https://docs.google.com/spreadsheets/d/1Y8JrN8sZV8SKP3HgzJpzHoWpP51v1aHbCFU79XomnLI/edit?usp=sharing)
+
 
 
 ✨ Features
