@@ -1,135 +1,224 @@
-## Overview
-TipJar is a decentralized Web3 tipping application built on the Stellar blockchain. It allows users to send XLM (Stellar Lumens) tips to creators directly via browser wallet extensions, with no backend business logic — all financial operations happen on-chain.
+## 🏗️ TipJar — Architecture
 
-## Tech Stack Summary
-LayerTechnologyLanguageFrontend UIReact 18 (JSX) via SystemJS + BabelJavaScript (JSX)Frontend TranspilerSystemJS + plugin-babelJavaScriptStatic File ServerNode.js http moduleJavaScript (Node.js)Wallet IntegrationFreighter & Albedo browser extensionsJavaScript (Browser API)Blockchain SDKstellar-sdk v10.4.1JavaScriptBlockchain NetworkStellar Testnet / Mainnet—Off-chain DatabaseFirebase Firestore (NoSQL)—TestsNode.js assert moduleJavaScript (Node.js)
+> A decentralized XLM tipping app on the Stellar blockchain. No backend business logic — all financial operations happen on-chain.
 
-## Architecture Layers : 
-1. Frontend Layer — React 18 (JSX)
-Language: JavaScript (JSX)
-Runtime: Browser — loaded and transpiled in-browser via SystemJS + plugin-babel
-The UI is a single-page application (SPA) built with React 18. There is no build step — JSX is transpiled at runtime in the browser using SystemJS as a module loader and the Babel plugin for transpilation. React and ReactDOM are loaded from the unpkg.com CDN as UMD globals.
-UI structure — four main tabs:
+---
 
-Balance tab — Shows current XLM wallet balance; creator profile setup (name, bio, allowed tip amounts); shareable tip link generation.
-Send Tip tab — Form to send XLM to any Stellar address; preset quick-select tip amounts; optional message field; transaction status feedback.
-Received tab — Lists all incoming tips with sender address (shortened), amount, timestamp (relative time), and link to Stellar Expert explorer.
-Sent tab — Lists all outgoing tips with the same fields.
+## Tech Stack
 
-State management: Local React state (useState, useReducer) — no external state library.
-Key logic in frontend:
+| Layer | Technology | Language |
+|---|---|---|
+| Frontend UI | React 18 (JSX) via SystemJS + Babel | JavaScript (JSX) |
+| Static Server | Node.js `http` module | JavaScript (Node.js) |
+| Wallet | Freighter & Albedo browser extensions | Browser JS API |
+| Blockchain SDK | `stellar-sdk` v10.4.1 | JavaScript |
+| Blockchain Network | Stellar Testnet / Mainnet | — |
+| Database | Firebase Firestore | NoSQL |
+| Tests | Node.js `assert` module | JavaScript (Node.js) |
 
-shortenAddress(address) — Formats Stellar addresses as GBBD47...FLA5
-validateTipAmount(amount, balance) — Enforces minimum 0.1 XLM, positive value, and sufficient balance (with 1 XLM reserve)
-timeAgo(timestamp) — Dynamic relative timestamps ("2h ago", "3d ago")
-Freighter detection with 1-second delay + retry loop + 5-second timeout
+---
 
+## System Layers
 
-2. Static File Server — Node.js
-Language: JavaScript (Node.js)
-Entry point: server.js
-Port: 8080
-Dependencies: None (uses Node.js built-in http and fs modules only)
-A minimal HTTP server that:
+```
+┌─────────────────────────────────────────────────────┐
+│                FRONTEND (Browser)                   │
+│   React 18 · SystemJS + Babel · No build step       │
+│  ┌───────────┐ ┌──────────┐ ┌────────┐ ┌────────┐  │
+│  │  Balance  │ │ Send Tip │ │Received│ │  Sent  │  │
+│  │    Tab    │ │   Tab    │ │  Tab   │ │  Tab   │  │
+│  └───────────┘ └──────────┘ └────────┘ └────────┘  │
+└──────────────────────┬──────────────────────────────┘
+                       │ HTTP (static files)
+┌──────────────────────▼──────────────────────────────┐
+│              STATIC FILE SERVER                     │
+│         Node.js · server.js · Port 8080             │
+│      Serves index.html · SPA fallback routing       │
+└──────────────────────┬──────────────────────────────┘
+                       │ Browser Extension API
+┌──────────────────────▼──────────────────────────────┐
+│                 WALLET LAYER                        │
+│       Freighter (freighter.app)                     │
+│       Albedo    (albedo.link)                       │
+│       Signs all transactions · Never stores keys    │
+└──────────────────────┬──────────────────────────────┘
+                       │ stellar-sdk v10
+┌──────────────────────▼──────────────────────────────┐
+│              STELLAR BLOCKCHAIN                     │
+│  Horizon API · horizon-testnet.stellar.org          │
+│  XLM Payments · Tx submission · Balance queries     │
+└──────────────────────┬──────────────────────────────┘
+                       │ Firebase JS SDK
+┌──────────────────────▼──────────────────────────────┐
+│               DATA LAYER (Off-chain)                │
+│              Firebase Firestore (NoSQL)             │
+│     Tip records · Creator profiles · Tx metadata   │
+└─────────────────────────────────────────────────────┘
+```
 
-Serves static files (index.html, app.js, style.css, etc.) with correct MIME types
-Falls back to index.html for all unknown routes — enabling SPA client-side routing
-Has no API endpoints, no authentication, no database access
+---
 
-This layer is purely a static asset delivery mechanism. All business logic lives in the browser.
+## Layer Breakdown
 
-3. Wallet Layer — Browser Extensions
-Language: JavaScript (Browser Extension API)
-Users connect one of two Stellar browser wallets:
-WalletURLNotesFreighterhttps://freighter.appChrome/Firefox extension; detected via window.freighterAlbedohttps://albedo.linkBrowser extension + web-based signer
-Key behaviors:
+### 1. Frontend — React 18
 
-The app never accesses or stores private keys
-All transaction signing happens inside the wallet extension
-The app detects Freighter with a polling retry (checks every 10ms, up to 5 seconds after page load)
-If no wallet is found, the UI shows install instructions with a download link
+No build step. JSX is transpiled **in the browser** via SystemJS + Babel. React & ReactDOM load from `unpkg.com` CDN.
 
+**Four tabs:**
 
-4. Blockchain Layer — Stellar Network
-Language: JavaScript
-Library: stellar-sdk v10.4.1
-Network: Stellar Testnet (switchable to Mainnet)
-Horizon API endpoints:
+| Tab | Purpose |
+|---|---|
+| Balance | Wallet balance · Creator profile setup · Shareable tip link |
+| Send Tip | Send XLM · Preset amounts · Optional message · Tx status |
+| Received | Incoming tips · Sender info · Timestamps · Explorer links |
+| Sent | Outgoing tips · Recipient info · Timestamps · Explorer links |
 
-Testnet: https://horizon-testnet.stellar.org
-Mainnet: https://horizon.stellar.org
+**Key frontend logic:**
 
-On-chain operations:
+```
+shortenAddress(address)        → "GBBD47...FLA5"
+validateTipAmount(amt, bal)    → min 0.1 XLM · positive · balance check
+timeAgo(timestamp)             → "2h ago", "3d ago"
+Freighter detection            → 1s delay · retries every 10ms · 5s timeout
+```
 
-Query wallet balance (XLM)
-Build and submit XLM payment transactions
-Each transaction carries an optional memo (tip message, truncated to Stellar's 28-byte limit)
+---
 
-Stellar address rules enforced in the app:
+### 2. Static File Server — Node.js
 
-Must start with G
-Must be exactly 56 characters
-Minimum tip: 0.1 XLM
-Network fee: ~0.00001 XLM
-Minimum reserve (not spendable): 1 XLM
+```
+Entry:   server.js
+Port:    8080
+Deps:    None (built-in http + fs modules only)
+```
 
-Stellar Expert (https://stellar.expert) is linked from the UI as a read-only blockchain explorer for verifying transaction hashes.
-Testnet funding: New accounts can be funded via FriendBot at https://friendbot.stellar.org.
+- Serves all static files with correct MIME types
+- Falls back to `index.html` for unknown routes (SPA routing)
+- **No API endpoints. No database access. No business logic.**
 
-5. Data Layer — Firebase Firestore
-Type: NoSQL document database (Google Firebase)
-Access: Direct from browser (Firebase JS SDK)
-Firebase stores two collections of off-chain metadata:
-tips collection — Tip records
-FieldTypeDescriptionsenderstringSender's Stellar address (56 chars)receiverstringRecipient's Stellar addressamountnumberXLM amount sentmessagestringOptional tip messagetxHashstringStellar transaction hashtimestampTimestampFirebase server timestamp
-profiles collection — Creator profiles
-FieldTypeDescriptionKeystringWallet address (document ID)namestringCreator display namebiostringCreator bioallowedTipAmountsarrayPreset tip amounts (e.g. [1, 5, 10, 25])
-Firestore queries filter tip records by sender or receiver address to populate the Sent and Received tabs.
+---
 
-Data Flow — Sending a Tip
-User fills "Send Tip" form
-        │
-        ▼
-Frontend validates input (address format, amount ≥ 0.1 XLM, balance check)
-        │
-        ▼
-stellar-sdk builds a Payment transaction object
-        │
-        ▼
-Wallet extension (Freighter/Albedo) signs the transaction
-        │
-        ▼
-stellar-sdk submits signed tx to Horizon API
-        │
-        ▼
-Horizon confirms; returns transaction hash
-        │
-        ▼
-Firebase Firestore stores tip record (sender, receiver, amount, txHash, timestamp)
-        │
-        ▼
-UI shows confirmation + link to Stellar Expert
+### 3. Wallet Layer — Browser Extensions
 
-Testing
-Framework: Plain Node.js assert module (no external test runner)
-File: tests/app.test.js
-Run: node tests/app.test.js
-Three test cases:
-TestWhat it checksAddress shortenershortenAddress() returns first6...last6 format; handles empty stringTip amount validatorRejects empty, negative, below-minimum, and over-balance amounts; accepts valid amountsTip object structureAll required fields exist with correct types; Stellar address format; positive amount
+| Wallet | Detection | Notes |
+|---|---|---|
+| Freighter | `window.freighter` | Chrome/Edge extension |
+| Albedo | `window.albedo` | Chrome/Edge extension |
 
-Key Dependencies
-PackageVersionPurposestellar-sdk^10.4.1Stellar blockchain interactionreact18.3.1UI framework (loaded via CDN)react-dom18.3.1React DOM renderer (loaded via CDN)plugin-babellatestIn-browser JSX transpilationsystemjs—In-browser module loaderFirebase JS SDK—Firestore database access
+> 🔐 TipJar never accesses or stores private keys. All signing happens inside the wallet extension.
 
-Security Notes
+---
 
-Private keys are never stored or transmitted — all signing is handled by the wallet extension
-Firebase Firestore stores only transaction references (hashes) and public wallet addresses
-No passwords — identity is tied entirely to the wallet
-No analytics or tracking
-All transaction data on the Stellar blockchain is public
+### 4. Blockchain — Stellar Network
 
+```
+SDK:        stellar-sdk v10.4.1
+Testnet:    https://horizon-testnet.stellar.org
+Mainnet:    https://horizon.stellar.org
+Explorer:   https://stellar.expert  (linked from UI, read-only)
+```
 
-Current Deployment
+**Stellar rules enforced in the app:**
+
+| Rule | Value |
+|---|---|
+| Address format | Starts with `G` · exactly 56 characters |
+| Minimum tip | `0.1 XLM` |
+| Network fee | `~0.00001 XLM` |
+| Minimum reserve | `1 XLM` (not spendable) |
+
+---
+
+### 5. Data Layer — Firebase Firestore
+
+**`tips` collection**
+
+```
+sender      string    Sender's Stellar address
+receiver    string    Recipient's Stellar address
+amount      number    XLM amount
+message     string    Optional tip message
+txHash      string    Stellar transaction hash
+timestamp   Timestamp Firebase server timestamp
+```
+
+**`profiles` collection** *(keyed by wallet address)*
+
+```
+name               string    Creator display name
+bio                string    Creator bio
+allowedTipAmounts  array     Preset amounts e.g. [1, 5, 10, 25]
+```
+
+---
+
+## Send Tip — Data Flow
+
+```
+User fills Send Tip form
+        ↓
+Frontend validates (address format · amount · balance)
+        ↓
+stellar-sdk builds Payment transaction
+        ↓
+Wallet extension signs the transaction
+        ↓
+stellar-sdk submits to Horizon API
+        ↓
+Horizon confirms · returns txHash
+        ↓
+Firebase stores tip record (sender, receiver, amount, txHash, timestamp)
+        ↓
+UI shows confirmation + Stellar Expert link
+```
+
+---
+
+## Testing
+
+```
+Runner:   node tests/app.test.js
+Command:  npm test
+Deps:     Node.js assert module (no external framework)
+```
+
+| Test | Covers |
+|---|---|
+| Address shortener | `first6...last6` format · empty string |
+| Tip amount validator | Empty · negative · below min · over balance · valid |
+| Tip object structure | All fields present · correct types · Stellar address format |
+
+---
+
+## Project Structure
+
+```
+TipJar/
+├── server.js           Static file server (port 8080)
+├── config.js           SystemJS + Babel in-browser config
+├── app.js              React app · wallet logic · Stellar SDK
+├── index.html          Entry point
+├── style.css           Global styles
+├── package.json        Dependencies & scripts
+└── tests/
+    └── app.test.js     Test suite (3 tests)
+```
+
+---
+
+## Key Dependencies
+
+| Package | Version | Purpose |
+|---|---|---|
+| `stellar-sdk` | ^10.4.1 | Stellar blockchain interaction |
+| `react` | 18.3.1 | UI framework (CDN) |
+| `react-dom` | 18.3.1 | React DOM renderer (CDN) |
+| `plugin-babel` | latest | In-browser JSX transpilation |
+| Firebase JS SDK | — | Firestore database access |
+
+---
+
+> **Network:** Stellar Testnet · Switch Horizon URL to `https://horizon.stellar.org` for Mainnet production.
 
 Environment: Localhost development / Stellar Testnet
 Production path: Switch Horizon URL to https://horizon.stellar.org and use real XLM
