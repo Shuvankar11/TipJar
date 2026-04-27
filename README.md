@@ -25,6 +25,17 @@ https://youtu.be/s69QlMkR_3Y
 ### Deployed Vercel Link: 
 https://tip-jar-green.vercel.app/
 
+
+## 5+ User Wallet Addresses (Verified on Stellar Testnet)
+| User | Stellar Address |
+|------|----------------|
+| User 1 | GAQFPTYZEI5RCBURZ7OAMGJYO6NHS7VYWZTNNYEPUOKU7QK5FELPOIYD |
+| User 2 | GDU34BU5VFLXSZHM5K4D737TYU6XBATENI5RXCI54UKERV6NITMSWJHT |
+| User 3 | GAYUFZJBWTK3T5ZX47DILF43QUGPYFNIPBVTLYLF3CYVJVF54MCSS3G3 |
+| User 4 | GCVTL7ISWO52Q5GCOEVZQ5Z77ZN5EFC2N2RNM4IVVVJMILZZ2Q4PVAAJ |
+| User 5 | GAJHZLYDEWNHJVG63A3BWAGPHRAR4WQXHRA6QXTBA34MJGGSCRPJWYTP |
+| User 6 | GB4EU73SY2J7KJAMTSZCFUER7XKMRUFR3IE3NWDNSFO754EIWUH5ITAB |
+
 ✨ Features
 FeatureDescription🔐 Secure AuthEmail/password sign-up & sign-in via Firebase Authentication
 👛Wallet IntegrationConnect with Albedo or Freighter Stellar wallets in one click
