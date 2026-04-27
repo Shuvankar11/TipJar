@@ -19,11 +19,20 @@ With built-in transaction history and direct links to the Stellar Explorer for b
 ### Mobile Response 
 ![mobile_responsive](./Screenshots/mobile_responsive.png)
 
+
+### Different Wallet Option
+![different_wallet](./Screenshots/different_wallet.png)
+
+
+
 ### Demo Video : 
 https://youtu.be/s69QlMkR_3Y
 
+
+
 ### Deployed Vercel Link: 
 https://tip-jar-green.vercel.app/
+
 
 
 ## 5+ User Wallet Addresses (Verified on Stellar Testnet)
@@ -35,8 +44,6 @@ https://tip-jar-green.vercel.app/
 | User 4 | GCVTL7ISWO52Q5GCOEVZQ5Z77ZN5EFC2N2RNM4IVVVJMILZZ2Q4PVAAJ |
 | User 5 | GAJHZLYDEWNHJVG63A3BWAGPHRAR4WQXHRA6QXTBA34MJGGSCRPJWYTP |
 | User 6 | GB4EU73SY2J7KJAMTSZCFUER7XKMRUFR3IE3NWDNSFO754EIWUH5ITAB |
-
-
 
 
 
