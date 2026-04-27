@@ -22,6 +22,9 @@ With built-in transaction history and direct links to the Stellar Explorer for b
 ### Demo Video : 
 https://youtu.be/s69QlMkR_3Y
 
+### Deployed Vercel Link: 
+https://tip-jar-green.vercel.app/
+
 ✨ Features
 FeatureDescription🔐 Secure AuthEmail/password sign-up & sign-in via Firebase Authentication
 👛Wallet IntegrationConnect with Albedo or Freighter Stellar wallets in one click
