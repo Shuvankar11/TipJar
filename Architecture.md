@@ -222,3 +222,5 @@ TipJar/
 
 Environment: Localhost development / Stellar Testnet
 Production path: Switch Horizon URL to https://horizon.stellar.org and use real XLM
+### ARCHITECTURE DIAGRAM
+![Architecture](./Screenshots/Architecture.png)
