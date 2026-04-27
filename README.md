@@ -7,7 +7,8 @@ With built-in transaction history and direct links to the Stellar Explorer for b
 
 </div>
 
-📸 Screenshots
+### 📸 Screenshots
+
 
 ### Home Page
 ![Home](./Screenshots/landing_page.png)
@@ -17,12 +18,13 @@ With built-in transaction history and direct links to the Stellar Explorer for b
 ![Dashboard](./Screenshots/Dashboard.png)
 
 
+### Different Wallet Option
+![different_wallet](./Screenshots/different_wallet.png)
+
+
 ### Mobile Response 
 ![mobile_responsive](./Screenshots/mobile_responsive.png)
 
-
-### Different Wallet Option
-![different_wallet](./Screenshots/different_wallet.png)
 
 *** For more screenshots check Screenshots folder ***
 
