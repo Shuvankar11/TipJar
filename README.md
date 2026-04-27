@@ -127,10 +127,10 @@ Open **Command Prompt** (`Win + R` → type `cmd` → Enter) and run:
 
 ```bash
 # Navigate to your preferred folder
-cd C:\Users\YourName\Projects
+cd C:\Users\shuvankar\Projects
 
 # Clone the repo (replace with your actual GitHub URL)
-git clone https://github.com/YOUR_USERNAME/TipJar.git
+git clone https://github.com/Shuvankar11/TipJar.git
 
 # Enter the project folder
 cd TipJar
