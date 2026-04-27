@@ -57,6 +57,12 @@ https://tip-jar-green.vercel.app/
 | Stellar Explorer | [View Contract](https://stellar.expert/explorer/testnet/contract/CBYSZTMUNI6TTNRKOJPK2424CSQF6H52QARHDBYCNYVM5OVEJB7YYMCR) |
 
 
+
+## CI/CD
+This project uses GitHub Actions for automated deployment to Vercel.
+Every push to main triggers a build and deploy.
+
+
 ✨ Features
 FeatureDescription🔐 Secure AuthEmail/password sign-up & sign-in via Firebase Authentication
 👛Wallet IntegrationConnect with Albedo or Freighter Stellar wallets in one click
@@ -96,25 +102,6 @@ LayerTechnologyFrontendReact 18 (via CDN + SystemJS), Vanilla CSSBackend / AuthF
 FirestoreBlockchainStellar Network (Testnet), Stellar SDK v10Smart ContractSoroban (Rust) — deployed on Stellar TestnetWallet SupportAlbedo, 
 FreighterServerNode.js HTTP server (static file serving)HostingVercelCI/CDGitHub Actions
 
-📁 Project Structure
-TipJar/
-├── app-final.js              # Main React app (all components)
-├── index.html                # Entry HTML — loads CDN scripts
-├── style-final.css           # Global styles (glassmorphism, gradients)
-├── server.js                 # Node.js static file server (SPA routing)
-├── config.js                 # SystemJS / module loading config
-├── vercel.json               # Vercel deployment config
-├── package.json              # Dependencies & scripts
-├── contracts/
-│   └── tipjar/
-│       ├── Cargo.toml        # Rust crate config
-│       └── src/
-│           └── lib.rs        # Soroban smart contract
-├── tests/
-│   └── app.test.js           # Unit tests
-└── .github/
-    └── workflows/
-        └── deploy.yml        # GitHub Actions CI (test on push)
 
 ⚙️ Configuration
 // Mainnet
