@@ -36,6 +36,20 @@ https://tip-jar-green.vercel.app/
 | User 5 | GAJHZLYDEWNHJVG63A3BWAGPHRAR4WQXHRA6QXTBA34MJGGSCRPJWYTP |
 | User 6 | GB4EU73SY2J7KJAMTSZCFUER7XKMRUFR3IE3NWDNSFO754EIWUH5ITAB |
 
+
+
+
+
+
+## Contract Information
+| Item | Value |
+|------|-------|
+| Network | Stellar Testnet |
+| Contract ID | `CBYSZTMUNI6TTNRKOJPK2424CSQF6H52QARHDBYCNYVM5OVEJB7YYMCR` |
+| Deploy TX Hash | `2b5531aa88f390dd9b5eeb88ba57e885e233ebcb4d449fb7b66071fa48c8c0f7` |
+| Stellar Explorer | [View Contract](https://stellar.expert/explorer/testnet/contract/CBYSZTMUNI6TTNRKOJPK2424CSQF6H52QARHDBYCNYVM5OVEJB7YYMCR) |
+
+
 ✨ Features
 FeatureDescription🔐 Secure AuthEmail/password sign-up & sign-in via Firebase Authentication
 👛Wallet IntegrationConnect with Albedo or Freighter Stellar wallets in one click
