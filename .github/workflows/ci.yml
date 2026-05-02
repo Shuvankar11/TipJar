@@ -1,8 +1,8 @@
 name: TipJar CI/CD
 
 on:
-  push:
-    branches: [ "main" ]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Run build (optional)
-        run: echo "No build step required"
+        run: echo "No build step required" 
 
       - name: Run tests (optional)
-        run: echo "No tests yet"
+        run: echo "No tests yet"  
